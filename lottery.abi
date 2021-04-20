@@ -1,0 +1,192 @@
+[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "GetAuth",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "boss",
+				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "start",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "GetCountDownTime",
+		"outputs": [
+			{
+				"internalType": "uint64",
+				"name": "timeLeft",
+				"type": "uint64"
+			},
+			{
+				"internalType": "uint256",
+				"name": "rounds",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "amount",
+				"type": "uint32"
+			}
+		],
+		"name": "Start",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "authVerification",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "auth",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPrizePool",
+		"outputs": [
+			{
+				"internalType": "uint32",
+				"name": "pool",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "rounds",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getSuperiseHistory",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "address",
+						"name": "add",
+						"type": "address"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "uint32",
+						"name": "prize",
+						"type": "uint32"
+					},
+					{
+						"internalType": "uint64",
+						"name": "timestamp",
+						"type": "uint64"
+					},
+					{
+						"internalType": "bytes32",
+						"name": "hash",
+						"type": "bytes32"
+					}
+				],
+				"internalType": "struct lottery.History[][]",
+				"name": "",
+				"type": "tuple[][]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string[]",
+				"name": "auth",
+				"type": "string[]"
+			},
+			{
+				"internalType": "address",
+				"name": "boss",
+				"type": "address"
+			},
+			{
+				"internalType": "uint64",
+				"name": "start",
+				"type": "uint64"
+			}
+		],
+		"name": "initAuth",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			}
+		],
+		"name": "login",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "hasAuth",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "superise",
+		"outputs": [
+			{
+				"internalType": "uint32",
+				"name": "get",
+				"type": "uint32"
+			},
+			{
+				"internalType": "string",
+				"name": "rname",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "ruser",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
