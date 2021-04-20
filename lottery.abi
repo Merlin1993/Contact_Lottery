@@ -6,6 +6,19 @@
 	},
 	{
 		"inputs": [],
+		"name": "AuthVerification",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "auth",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "GetAuth",
 		"outputs": [
 			{
@@ -41,34 +54,8 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint32",
-				"name": "amount",
-				"type": "uint32"
-			}
-		],
-		"name": "Start",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
-		"name": "authVerification",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "auth",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getPrizePool",
+		"name": "GetPrizePool",
 		"outputs": [
 			{
 				"internalType": "uint32",
@@ -86,7 +73,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "getSuperiseHistory",
+		"name": "GetSuperiseHistory",
 		"outputs": [
 			{
 				"components": [
@@ -142,7 +129,7 @@
 				"type": "uint64"
 			}
 		],
-		"name": "initAuth",
+		"name": "InitAuth",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -155,7 +142,7 @@
 				"type": "string"
 			}
 		],
-		"name": "login",
+		"name": "Login",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -167,8 +154,21 @@
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint32",
+				"name": "amount",
+				"type": "uint32"
+			}
+		],
+		"name": "Start",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
-		"name": "superise",
+		"name": "Superise",
 		"outputs": [
 			{
 				"internalType": "uint32",
