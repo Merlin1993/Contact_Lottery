@@ -35,7 +35,7 @@ contract  lottery {
         creater = msg.sender;
     }
     
-    function login(string memory name) public returns(bool hasAuth) {
+    function Login(string memory name) public returns(bool hasAuth) {
         hasAuth = false;
         uint autherLength = authers.length;
         for(uint i = 0;i<autherLength;i++){
@@ -62,7 +62,7 @@ contract  lottery {
         isStart = true;
     }
     
-    function authVerification()public view returns(bool auth){
+    function AuthVerification()public view returns(bool auth){
         string memory name = correspondenceAddr[msg.sender];
         if (keccak256(abi.encode(name)) == keccak256(abi.encode(emptyStr))){
             return false;
@@ -110,7 +110,7 @@ contract  lottery {
         }
     }
     
-    function getPrizePool() public view returns(uint32 pool,uint rounds){
+    function GetPrizePool() public view returns(uint32 pool,uint rounds){
         if (startTime + uint64(timeInterval * round)  < uint64(block.timestamp)){
             rounds = round + 1;
             if (round == 5) {
@@ -124,11 +124,11 @@ contract  lottery {
         }
     }
     
-    function getSuperiseHistory()public view returns(History[][] memory){
+    function GetSuperiseHistory()public view returns(History[][] memory){
         return superiseHistory;
     }
     
-    function superise() public returns(uint32 get,string memory rname,address ruser){
+    function Superise() public returns(uint32 get,string memory rname,address ruser){
         require(isStart,"lottery not start!");
         while (round < 5 && startTime + uint64(timeInterval * round) < uint64(block.timestamp)){
             startNewRound();
@@ -144,35 +144,51 @@ contract  lottery {
             require(!roundHistory[round-1].superiseHistory[name],"User has already drawn a lottery!");
         }
         
-        uint32 tempPool = prizePool / peopleCount * 3 / 2;
         
         
         uint32 random = uint32(uint256(msg.sender) * uint256(block.number) * uint256(block.timestamp));
         
-        uint32 distribute = random % 10;
-        if (distribute == 0 || distribute == 1) {
-            tempPool = tempPool / 10;
-        }
-        if (distribute == 9){
-            tempPool = tempPool * 4;
-        }
+        if (round == 5) {
+            uint32 tempPool = prizePool / peopleCount * 2;
+            uint32 isLucky = random % 5;
+            if (isLucky == 0 && prizePool > 0) {
+                get =  random % tempPool;
+                prizePool = prizePool - get;
+                if (peopleCount == 1){
+                    get = get + prizePool;
+                    prizePool = 0;
+                }
+            }else{
+                get = 0;
+                peopleCount = peopleCount + 1;
+            }
+        }else{
+            uint32 tempPool = prizePool / peopleCount * 3 / 2;
+            uint32 distribute = random % 10;
+            if (distribute == 0 || distribute == 1) {
+                tempPool = tempPool / 10;
+            }
+            if (distribute == 9){
+                tempPool = tempPool * 4;
+            }
         
-        if (tempPool > prizePool) {
-            tempPool = prizePool;
-        }
+            if (tempPool > prizePool) {
+                tempPool = prizePool;
+            }
         
-        get = random % tempPool;
-        if (get == 0) {
-            get = 1;
-        }
-        prizePool = prizePool - get;
-        if (prizePool == 0){
-            prizePool = peopleCount;
-            get = get - peopleCount;
-        }
-        if (peopleCount == 1){
-            get = get + prizePool;
-            prizePool = 0;
+            get = random % tempPool;
+            if (get == 0) {
+                get = 1;
+            }
+            prizePool = prizePool - get;
+            if (prizePool == 0){
+                prizePool = peopleCount;
+                get = get - peopleCount;
+            }
+            if (peopleCount == 1){
+                get = get + prizePool;
+                prizePool = 0;
+            }
         }
         
         if (roundHistory.length < round) {
@@ -194,13 +210,14 @@ contract  lottery {
         round = round + 1;
         if (round == 5) {
             prizePool = prizePool + initPool - 8000;
+            peopleCount = 10;
         }else{
             prizePool = prizePool + 2000;
-        }
         peopleCount = uint32(authers.length);
+        }
     }
     
-    function initAuth (string[] memory auth,address boss,uint64 start)public {
+    function InitAuth (string[] memory auth,address boss,uint64 start)public {
         require(creater == msg.sender,"invaild init!");
         require (authers.length == 0,"authers initialized!");
         require (auth.length > 0,"authers is empty!");
