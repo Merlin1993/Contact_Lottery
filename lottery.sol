@@ -78,8 +78,8 @@ contract  lottery {
             return false;
         }
         uint roundNow = mRound;
-        if (sStartTime + uint64(sTimeInterval * mRound)  < uint64(block.timestamp) && roundNow < 5){
-            roundNow = mRound + 1;
+        while (sStartTime + uint64(sTimeInterval * mRound)  < uint64(block.timestamp) && roundNow < 5){
+            roundNow = roundNow + 1;
         }
         if (mRound != 0 && mRoundHistory.length >= roundNow) {
             return !mRoundHistory[roundNow-1].surpriseHistory[name];
@@ -126,7 +126,8 @@ contract  lottery {
         while (mRound < 5 && sStartTime + uint64(sTimeInterval * mRound) < uint64(block.timestamp)){
             startNewRound();
         }
-        require(uint64(block.timestamp) > sStartTime,"new round not start!");
+        require(mPeopleCount > 0,"new round not start!");
+        require(uint64(block.timestamp) > sStartTime,"first round not start!");
         address user = msg.sender;
         string memory name = mCorrespondenceAddr[user];
         bool isNotEmpty = keccak256(abi.encode(name)) != keccak256(abi.encode(sEmptyStr));
@@ -140,7 +141,7 @@ contract  lottery {
         uint32 random = uint32(uint256(msg.sender) * uint256(block.number) * uint256(block.timestamp));
         
         if (mRound == 5) {
-            uint32 tempPool = mPrizePool / mLastRoundCount * 2;
+            uint32 tempPool = mPrizePool * 2 / mLastRoundCount;
             uint32 isLucky = random % 5;
             if ((isLucky == 0 || mPeopleCount == mLastRoundCount) && mPrizePool > 0) {
                 get =  random % tempPool;
@@ -155,10 +156,13 @@ contract  lottery {
                 mPrizePool = 0;
             }
         }else{
-            uint32 tempPool = mPrizePool / mPeopleCount * 3 / 2;
+            uint32 tempPool = mPrizePool * 3 / 2 / mPeopleCount;
             uint32 distribute = random % 10;
             if (distribute == 0 || distribute == 1) {
                 tempPool = tempPool / 10;
+                if (tempPool == 0){
+                    tempPool = 1;
+                }
             }
             if (distribute == 9){
                 tempPool = tempPool * 4;
@@ -184,7 +188,7 @@ contract  lottery {
             }
         }
         
-        if (mRoundHistory.length < mRound) {
+        while (mRoundHistory.length < mRound) {
             mRoundHistory.push();
             mSurpriseHistory.push();
         }
