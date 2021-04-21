@@ -78,7 +78,7 @@ contract  lottery {
             return false;
         }
         uint roundNow = mRound;
-        if (sStartTime + uint64(sTimeInterval * mRound)  < uint64(block.timestamp)){
+        if (sStartTime + uint64(sTimeInterval * mRound)  < uint64(block.timestamp) && roundNow < 5){
             roundNow = mRound + 1;
         }
         if (mRound != 0 && mRoundHistory.length >= roundNow) {
