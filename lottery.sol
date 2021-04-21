@@ -117,7 +117,7 @@ contract  lottery {
         }
     }
     
-    function GetSuperiseHistory()public view returns(History[][] memory){
+    function GetSurpriseHistory()public view returns(History[][] memory){
         return mSurpriseHistory;
     }
     
