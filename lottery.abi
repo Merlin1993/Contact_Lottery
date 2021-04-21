@@ -96,11 +96,6 @@
 						"internalType": "uint64",
 						"name": "timestamp",
 						"type": "uint64"
-					},
-					{
-						"internalType": "bytes32",
-						"name": "hash",
-						"type": "bytes32"
 					}
 				],
 				"internalType": "struct lottery.History[][]",
@@ -127,6 +122,21 @@
 				"internalType": "uint64",
 				"name": "start",
 				"type": "uint64"
+			},
+			{
+				"internalType": "uint64",
+				"name": "interval",
+				"type": "uint64"
+			},
+			{
+				"internalType": "uint32",
+				"name": "roundPool",
+				"type": "uint32"
+			},
+			{
+				"internalType": "uint32",
+				"name": "lastRoundCount",
+				"type": "uint32"
 			}
 		],
 		"name": "InitAuth",
@@ -168,7 +178,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "Superise",
+		"name": "Surprise",
 		"outputs": [
 			{
 				"internalType": "uint32",
