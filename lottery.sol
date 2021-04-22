@@ -104,7 +104,14 @@ contract  lottery {
     }
     
     function GetPrizePool() public view returns(uint32 pool,uint rounds){
-        if (sStartTime + uint64(sTimeInterval * mRound)  < uint64(block.timestamp) && mRound < 5){
+        uint64 timestamp = uint64(block.timestamp);
+        if(timestamp <= sStartTime){
+            pool = sRoundPool;
+            rounds =1 ;
+            return (pool,rounds);
+            
+        }
+        if (sStartTime + uint64(sTimeInterval * mRound)  < timestamp && mRound < 5){
             rounds = mRound + 1;
             if (rounds == 5) {
                 pool = mPrizePool + sInitPool - sRoundPool * 4;
@@ -121,7 +128,7 @@ contract  lottery {
         return mSurpriseHistory;
     }
     
-    function Surprise() public returns(uint32 get,string memory rname,address ruser){
+    function Surprise() public returns(uint32 get,string memory rname,address ruser,uint round){
         require(mIsStart,"lottery not start!");
         while (mRound < 5 && sStartTime + uint64(sTimeInterval * mRound) < uint64(block.timestamp)){
             startNewRound();
@@ -198,6 +205,7 @@ contract  lottery {
         history.prize = get;
         history.name = name;
         history.timestamp = uint64(block.timestamp);
+        round = mRound;
         rname = name;
         ruser = user;
     }
@@ -215,6 +223,8 @@ contract  lottery {
     function InitAuth (string[] memory auth,address boss,uint64 start,uint64 interval,uint32 roundPool,uint32 lastRoundCount)public {
         require(sCreater == msg.sender,"invaild init!");
         require (sAuthers.length == 0,"authers initialized!");
+        require (start > sStartTime,"start too old!");
+        require (interval < 864000,"interval too big!");
         require (interval > 10,"interval too small!");
         require (auth.length > 0,"authers is empty!");
         require (roundPool > 0,"roundPool is empty!");
