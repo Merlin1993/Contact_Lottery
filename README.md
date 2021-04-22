@@ -68,14 +68,14 @@ pool|当前轮奖池数
 rounds|当前为第几轮
 ---
 
-GetSuperiseHistory 获取抽奖记录
+GetSurpriseHistory 获取抽奖记录
 
 出参|解释
 ---|:--:
 History|中奖记录
 ---
 
-Superise 开始本轮抽奖
+Surprise 开始本轮抽奖
 
 出参|解释
 ---|:--:
