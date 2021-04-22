@@ -12,6 +12,11 @@
 				"internalType": "bool",
 				"name": "auth",
 				"type": "bool"
+			},
+			{
+				"internalType": "bool",
+				"name": "end",
+				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
