@@ -66,25 +66,30 @@ contract  lottery {
         mIsStart = true;
     }
     
-    function AuthVerification()public view returns(bool auth){
+    function AuthVerification()public view returns(bool auth,bool end){
         string memory name = mCorrespondenceAddr[msg.sender];
         if (keccak256(abi.encode(name)) == keccak256(abi.encode(sEmptyStr))){
-            return false;
+            return (false,false);
         }
         if (uint64(block.timestamp) < sStartTime) {
-            return false;
+            return (false,false);
         }
         if (!mIsStart) {
-            return false;
+            return (false,false);
         }
         uint roundNow = mRound;
         while (sStartTime + uint64(sTimeInterval * mRound)  < uint64(block.timestamp) && roundNow < 5){
             roundNow = roundNow + 1;
         }
         if (mRound != 0 && mRoundHistory.length >= roundNow) {
-            return !mRoundHistory[roundNow-1].surpriseHistory[name];
+            bool isDrawn = mRoundHistory[roundNow-1].surpriseHistory[name];
+            if (isDrawn && roundNow == 5) {
+                return (false,true);
+            }else{
+                return (!isDrawn,false);
+            }
         }
-        return true;
+        return (true,false);
     }
     
     function GetCountDownTime()public view returns(uint64 timeLeft,uint rounds){
@@ -148,9 +153,12 @@ contract  lottery {
         uint32 random = uint32(uint256(msg.sender) * uint256(block.number) * uint256(block.timestamp));
         
         if (mRound == 5) {
-            uint32 tempPool = mPrizePool * 2 / mLastRoundCount;
             uint32 isLucky = random % 5;
             if ((isLucky == 0 || mPeopleCount == mLastRoundCount) && mPrizePool > 0) {
+                uint32 tempPool = mPrizePool * 2 / mLastRoundCount;
+                if (tempPool > mPrizePool) {
+                    tempPool = mPrizePool;
+                }
                 get =  random % tempPool;
                 mPrizePool = mPrizePool - get;
                 mLastRoundCount = mLastRoundCount - 1;
@@ -158,7 +166,7 @@ contract  lottery {
                 get = 0;
             }
             mPeopleCount = mPeopleCount -1;
-            if (mPeopleCount == 0){
+            if (mPeopleCount == 0 || mLastRoundCount == 0){
                 get = get + mPrizePool;
                 mPrizePool = 0;
             }
