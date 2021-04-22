@@ -194,6 +194,11 @@
 				"internalType": "address",
 				"name": "ruser",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "round",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "nonpayable",
