@@ -49,6 +49,7 @@ AuthVerification 获取当前账户本轮是否可以抽奖
 出参|解释
 ---|:--:
 auth|本轮是否可以抽奖
+end | 是否已经第五轮完成抽奖
 ---
 
 GetCountDownTime 获取下轮开启剩余时间
@@ -81,4 +82,5 @@ Superise 开始本轮抽奖
 get|中奖金额
 rname|中奖者姓名
 ruser|中奖者账户地址
+round|当前轮次
 ---
