@@ -58,10 +58,10 @@ contract  lottery {
     }
     
     function Start(uint32 amount)public {
-        require(!mIsStart,"抽奖已经开始!");
-        require(msg.sender == sBossAddr,"must be boss addr");
-        require(sInitPool == 0 ,"Already initialized!");
-        require(amount > sRoundPool * 4 ,"amount is too small!");
+        require(!mIsStart,"抽奖已经开始");
+        require(msg.sender == sBossAddr,"该账户无权启动抽奖");
+        require(sInitPool == 0 ,"奖池金额不能为0!");
+        require(amount > sRoundPool * 4 ,"奖池金额必须超过前四轮抽奖总金额!");
         sInitPool =  amount;
         mIsStart = true;
     }
@@ -143,11 +143,11 @@ contract  lottery {
         address user = msg.sender;
         string memory name = mCorrespondenceAddr[user];
         bool isNotEmpty = keccak256(abi.encode(name)) != keccak256(abi.encode(sEmptyStr));
-        require(isNotEmpty,"Unauthorized address");
-        require(mPrizePool > 0,"prizePool is empty");
+        require(isNotEmpty,"账号未授权抽奖！！");
+        require(mPrizePool > 0,"奖池已清空!");
         
         if (mRoundHistory.length >= mRound) {
-            require(!mRoundHistory[mRound-1].surpriseHistory[name],"User has already drawn a lottery!");
+            require(!mRoundHistory[mRound-1].surpriseHistory[name],"用户已经抽过奖，请把机会留给其他人。");
         }
         
         uint32 random = uint32(uint256(msg.sender) * uint256(block.number) * uint256(block.timestamp));
@@ -229,14 +229,14 @@ contract  lottery {
     }
     
     function InitAuth (string[] memory auth,address boss,uint64 start,uint64 interval,uint32 roundPool,uint32 lastRoundCount)public {
-        require(sCreater == msg.sender,"invaild init!");
-        require (sAuthers.length == 0,"authers initialized!");
-        require (start > sStartTime,"start too old!");
-        require (interval < 864000,"interval too big!");
-        require (interval > 10,"interval too small!");
-        require (auth.length > 0,"authers is empty!");
-        require (roundPool > 0,"roundPool is empty!");
-        require (lastRoundCount > 0,"roundPool is empty!");
+        require(sCreater == msg.sender,"初始化账户不合法!");
+        require (sAuthers.length == 0,"用户已经初始化!");
+        require (start > sStartTime,"启动时间过早，请重新设定!");
+        require (interval < 864000,"间隔时间过长，请重新设定!");
+        require (interval > 10,"间隔时间过短，请重新设定!");
+        require (auth.length > 0,"授权用户数有误，请确认!");
+        require (roundPool > 0,"每轮中奖金额不得为0!");
+        require (lastRoundCount > 0,"最后一轮中奖人数不得为0!");
         sAuthers = auth;
         mPeopleCount = uint32(auth.length);
         mLastRoundCount = lastRoundCount;
