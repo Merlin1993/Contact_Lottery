@@ -153,7 +153,7 @@ contract  lottery {
         uint32 random = uint32(uint256(msg.sender) * uint256(block.number) * uint256(block.timestamp));
         
         if (mRound == 5) {
-            uint32 isLucky = random % 5;
+            uint32 isLucky = random % sLastRoundCountRate;
             if ((isLucky == 0 || mPeopleCount == mLastRoundCount) && mPrizePool > 0) {
                 uint32 tempPool = mPrizePool * 2 / mLastRoundCount;
                 if (tempPool > mPrizePool) {
