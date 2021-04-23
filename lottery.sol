@@ -71,7 +71,7 @@ contract  lottery {
         if (keccak256(abi.encode(name)) == keccak256(abi.encode(sEmptyStr))){
             return (false,false);
         }
-        if (uint64(block.timestamp) < sStartTime) {
+        if (uint64(block.timestamp) <= sStartTime) {
             return (false,false);
         }
         if (!mIsStart) {
