@@ -162,6 +162,10 @@ contract  lottery {
                 get =  random % tempPool;
                 mPrizePool = mPrizePool - get;
                 mLastRoundCount = mLastRoundCount - 1;
+                if (mPrizePool < mLastRoundCount){
+                    mPrizePool = mLastRoundCount;
+                    get = get - mLastRoundCount;
+                }
             }else{
                 get = 0;
             }
@@ -193,9 +197,9 @@ contract  lottery {
             }
             mPrizePool = mPrizePool - get;
             mPeopleCount = mPeopleCount -1;
-            if (mPrizePool < mPeopleCount * 2){
-                mPrizePool = mPeopleCount * 2;
-                get = get - mPeopleCount * 2;
+            if (mPrizePool < mPeopleCount){
+                mPrizePool = mPeopleCount;
+                get = get - mPeopleCount;
             }
             if (mPeopleCount == 0){
                 get = get + mPrizePool;
