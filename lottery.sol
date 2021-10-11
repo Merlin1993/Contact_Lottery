@@ -193,13 +193,18 @@ contract  lottery {
         
             get = random % tempPool;
             if (get == 0) {
-                get = 2;
+                get = 1;
             }
             mPrizePool = mPrizePool - get;
             mPeopleCount = mPeopleCount -1;
             if (mPrizePool < mPeopleCount){
+                uint32 temp = mPeopleCount - mPrizePool;
                 mPrizePool = mPeopleCount;
-                get = get - mPeopleCount;
+                if (get > temp) {
+                    get = get - temp;
+                }else{
+                    get = 0;
+                }
             }
             if (mPeopleCount == 0){
                 get = get + mPrizePool;
