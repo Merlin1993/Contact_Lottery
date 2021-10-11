@@ -163,8 +163,13 @@ contract  lottery {
                 mPrizePool = mPrizePool - get;
                 mLastRoundCount = mLastRoundCount - 1;
                 if (mPrizePool < mLastRoundCount){
+                    uint32 temp = mLastRoundCount - mPrizePool;
                     mPrizePool = mLastRoundCount;
-                    get = get - mLastRoundCount;
+                    if (get > temp) {
+                        get = get - temp;
+                    }else{
+                        get = 0;
+                    }
                 }
             }else{
                 get = 0;
