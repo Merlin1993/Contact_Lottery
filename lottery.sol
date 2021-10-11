@@ -160,6 +160,9 @@ contract  lottery {
                     tempPool = mPrizePool;
                 }
                 get =  random % tempPool;
+                if (get == 0) {
+                    get = 1;
+                }
                 mPrizePool = mPrizePool - get;
                 mLastRoundCount = mLastRoundCount - 1;
                 if (mPrizePool < mLastRoundCount){
